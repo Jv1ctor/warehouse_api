@@ -1,0 +1,31 @@
+services:
+  api:
+    container_name: warehouse-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    env_file:
+      - ./.env
+    ports:
+      - "${PORT_API}:${PORT_API}"
+    depends_on:
+      - db
+
+  db:
+    container_name: warehouse-db
+    image: postgres:16-alpine
+    restart: always
+    env_file:
+      - ./.env
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - ${DB_PORT_PUBLIC}:5432
+    volumes:
+      - warehouse-db-data:/var/lib/postgresql/data
+
+volumes:
+  warehouse-db-data:
