@@ -15,7 +15,9 @@ export const signJwt = <T extends string | object | Buffer<ArrayBufferLike>>(
   return jwt.sign(payload, secret, { expiresIn });
 };
 
-export const verifyJwt = <T extends object>(token: string): jwt.JwtPayload & T => {
+export const verifyJwt = <T extends object>(
+  token: string,
+): jwt.JwtPayload & T => {
   const secret = process.env.JWT_KEY;
 
   if (!secret) {
